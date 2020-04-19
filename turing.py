@@ -7,8 +7,12 @@ rules = [("a", 0, "r"), ("b", 0, "r"), ("1", 0, "r"), ("_", 1, "l"),
          ("a", 2, "l"), ("b", 2, "l"), ("1", 2, "l"), ("1", 0, "r")]
 
 inputs = list(map(lambda x: ''.join(x), chain(*[product("ab", repeat=i) for i in range(1, 4)])))
+filter_func = lambda x: True
 
-# inputs = ["a"]
+
+def good_word(w, seq):
+    return True
+
 
 class TurTable():
     def __init__(self, rules, characters):
@@ -27,6 +31,7 @@ ready = {}
 tree = {x: [(x, 0, 0)] for x in inputs}
 print(tree)
 
+
 def step(triple):
     word, state, pos = triple
     if pos == -1:
@@ -43,7 +48,7 @@ def stop(all_examples = False):
     if not hasattr(stop, "old"):
         stop.old = set()
     for w in ready:
-        if all_examples or w not in stop.old:
+        if (all_examples or w not in stop.old) and good_word(w, ready[w]):
             print("******FOUND******", w, "---- len =",len(ready[w]), ":" , ready[w])
             stop.old.add(w)
 
