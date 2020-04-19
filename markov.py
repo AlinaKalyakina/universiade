@@ -4,16 +4,18 @@ rules = [("1!", "!110"), ("0!", "!0"), ("22!", "!22"),
          ("@0", "01@"), ("@1", "1@"), ("@2", "22@"),
          ("@", "!"), ("?!", "", True), ("", "?@")]
 
-rules = list(map(lambda x: x + (False,) if len(x) == 2 else x, rules))
-
-
 inputs = list(map(lambda x: ''.join(x), chain(*[product("012", repeat=i) for i in range(1, 7)])))
-ready = {}
-tree = {x: [x] for x in inputs}
-
+filter_func = lambda x: True
 
 def good_word(word, seq):
     return seq[-1] == "110222211001100110"
+
+
+
+rules = list(map(lambda x: x + (False,) if len(x) == 2 else x, rules))
+inputs = list(filter(filter_func, inputs))
+ready = {}
+tree = {x: [x] for x in inputs}
 
 
 def step(word):
