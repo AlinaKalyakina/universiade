@@ -12,6 +12,10 @@ ready = {}
 tree = {x: [x] for x in inputs}
 
 
+def good_word(word, seq):
+    return seq[-1] == "110222211001100110"
+
+
 def step(word):
     for r in rules:
         if word.find(r[0]) != -1:
@@ -23,7 +27,7 @@ def stop(all_examples = False):
     if not hasattr(stop, "old"):
         stop.old = set()
     for w in ready:
-        if (all_examples or w not in stop.old) and ready[w][-1] == "110222211001100110":
+        if (all_examples or w not in stop.old) and good_word(w, ready[w]):
             print("******FOUND******", w, "----", ready[w])
             stop.old.add(w)
 
